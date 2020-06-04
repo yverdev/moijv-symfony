@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'utilisateur {{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="row mt-3">
+        <div class="col-3">
+    {% if user.image %}
+        <img class="img-thumbnail" src="{{ vich_uploader_asset(user, 'imageFile') }}">
+    {% else %}
+        <img class="img-thumbnail" src="http://placehold.it/300x300">
+    {% endif %}
+        </div>
+    <div class="col-9">
+    <h1>{{ user.firstname }} {{ user.lastname }}</h1>
+    <h2>{{ user.username }}</h2>
+    {#    <p>{{ user.email }}</p>#}
+    <p>Produits proposés par l'utilisateur : </p>
+    <ul>
+        {% for product in user.products %}
+            <li>
+                <a href="{{ path('product', {id : product.id}) }}">{{ product.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user == user %}
+    <a class="btn btn-primary" href="{{ path('add_product') }}">Ajouter un produit</a>
+    {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    <h1>Détails de {{ product.name }}</h1>
+    <img src="{{ vich_uploader_asset(product, 'imageFile') }}">
+    <p>Ref: {{ product.ref }}</p>
+    <p>
+        Description : {{ product.description }}
+    </p>
+    <p>Prix : {{ (product.price/100) | format_currency('EUR', locale='fr') }}</p>
+    <p>proposé par  : <a href="{{ path('user', {id: product.user.id}) }}">{{ product.user.username }}</a></p>
+    {% for tag in product.tags%}
+        <span class="badge badge-info">#{{ tag.name }}</span>
+    {% endfor %}
+{% endblock %}
