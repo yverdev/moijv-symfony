@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Tag;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -60,6 +61,20 @@ class ProductController extends AbstractController
         }
         return $this->render('product/product-form.html.twig',[
             'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+    * @Route("/product/tag/{slug}", name="products_by_tags")
+    */
+    public function productByTag(Tag $tag, ProductRepository $productRepository){
+        // SELECT * FROM products WHERE tag_id = :tag_id
+        $products = $productRepository->findByTag($tag);
+
+        return $this->render('product/product_by_tags.html.twig', [
+            'tag' => $tag,
+            'products' => $products
         ]);
     }
 }

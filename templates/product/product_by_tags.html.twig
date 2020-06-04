@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de sproduits associé au tag {{ tag.name }}{% endblock %}
+
+{% block body %}
+    <h1>Liste des produits associés au tag {{ tag.name }}</h1>
+    {% include 'incs/product_list.html.twig' with {productList: tag.products} %}
+
+{% endblock %}

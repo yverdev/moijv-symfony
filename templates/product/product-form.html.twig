@@ -7,4 +7,10 @@
     {% block body %}
         <h1>Ajouter un produit</h1>
         {{ form(form) }}
+
+    {% endblock %}
+
+    {% block javascript %}
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="{{ asset('bundles/pugxautocompleter/js/autocompleter-jqueryui.js') }}"></script>
     {% endblock %}
