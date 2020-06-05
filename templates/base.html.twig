@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
-
+    {% block stylesheets %}{% endblock %}
 </head>
 
 <body>
@@ -96,6 +96,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script> $('input[type="file"]').change(function(e){ var fileName = e.target.files[0].name; $(this).next('.custom-file-label').html(fileName); }); </script>
 {% block javascript %}{% endblock %}
 
 </body>

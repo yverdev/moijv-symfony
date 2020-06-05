@@ -12,5 +12,5 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
-    PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
+    Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle::class => ['all' => true],
 ];

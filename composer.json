@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "cocur/slugify": "^4.0",
-        "pugx/autocompleter-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",
@@ -20,6 +19,7 @@
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "5.0.*",
         "symfony/yaml": "5.0.*",
+        "tetranz/select2entity-bundle": "^3.0",
         "twig/intl-extra": "^3.0",
         "vich/uploader-bundle": "^1.13"
     },

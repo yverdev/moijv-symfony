@@ -22,8 +22,7 @@ class TagController extends AbstractController
         $tagsArray = array_map(function($tag){
             return [
                 'id' => $tag->getId(),
-                'label' => $tag->getName(),
-                'value' => $tag->getName()
+                'text' => $tag->getName()
             ];
         }, $tags);
         return $this->json($tagsArray);

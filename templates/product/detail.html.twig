@@ -14,4 +14,7 @@
     {% for tag in product.tags%}
         <a href="{{ path('products_by_tags', {slug: tag.slug}) }}" class="badge badge-info">#{{ tag.name }}</a>
     {% endfor %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and product.user == app.user %}
+        <a class="btn btn-primary" href="{{ path('edit_product', {id: product.id}) }}">Modifier le produit</a>
+    {% endif %}
 {% endblock %}

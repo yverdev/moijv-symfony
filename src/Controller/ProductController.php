@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProductController extends AbstractController
 {
@@ -36,25 +37,33 @@ class ProductController extends AbstractController
     /**
     * @IsGranted("IS_AUTHENTICATED_FULLY")
     * @Route("/product/add", name="add_product")
+    * @Route("/product/edit/{id<\d+>}", name="edit_product")
     */
-    public function addProduct(EntityManagerInterface $objectManager, Request $request){
+    public function addProduct(EntityManagerInterface $objectManager, Request $request, SluggerInterface $slugger, Product $product = null){
         //if($this->getUser() === null){
-          //  return $this->redirectToRoute('home');
-            //return $this->createAccessDeniedException();
-            //return $this->createAccessDeniedException();
+        //  return $this->redirectToRoute('home');
+        //return $this->createAccessDeniedException();
+        //return $this->createAccessDeniedException();
         //}
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
+        if($product === null){
+            $product = new Product();
+        }
+        $form = $this->createForm(ProductType::class);
         $form->add('submit', SubmitType::class, [
-            'label' => 'Ajouter votre produit'
+            'label' => ($product->getId() ? "Editer" : "Ajouter") . " votre produit"
         ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            //todo: créer un ref
             $user = $this->getUser();
             $product->setUser($user);
             $product->setRef(substr(str_shuffle(md5(random_int(0, 1000000))), 0, 25));
+            foreach ($product->getTags() as $tag){
+                if(empty($tag->getId())){
+                    $tag->setSlug($slugger->slug($tag->getName())->lower()->toString());
+                    $objectManager->persist($tag);
+                }
+            }
             $objectManager->persist($product);
             $objectManager->flush();
             return $this->redirectToRoute('profile');
