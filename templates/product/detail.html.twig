@@ -3,18 +3,29 @@
 {% block title %}Hello ProductController!{% endblock %}
 
 {% block body %}
-    <h1>Détails de {{ product.name }}</h1>
-    <img src="{{ vich_uploader_asset(product, 'imageFile') }}">
-    <p>Ref: {{ product.ref }}</p>
+    <h1>Détails du produit {{ product.name }}</h1>
+    <img class="img-fluid" src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="">
+    <p>Ref : {{ product.ref }}</p>
     <p>
-        Description : {{ product.description }}
+        {{ product.description }}
     </p>
-    <p>Prix : {{ (product.price/100) | format_currency('EUR', locale='fr') }}</p>
-    <p>proposé par  : <a href="{{ path('user', {id: product.user.id}) }}">{{ product.user.username }}</a></p>
-    {% for tag in product.tags%}
-        <a href="{{ path('products_by_tags', {slug: tag.slug}) }}" class="badge badge-info">#{{ tag.name }}</a>
+    <p>{{ (product.price/100) | format_currency('EUR', locale="fr") }}</p>
+    <p>proposé par <a href="{{ path('user', { id: product.user.id }) }}">{{ product.user.username }}</a></p>
+    {% for tag in product.tags %}
+        <a href="{{ path('products_by_tag', { slug: tag.slug }) }}" class="badge badge-info">#{{ tag.name }}</a>
     {% endfor %}
     {% if is_granted('IS_AUTHENTICATED_FULLY') and product.user == app.user %}
-        <a class="btn btn-primary" href="{{ path('edit_product', {id: product.id}) }}">Modifier le produit</a>
+        <a class="btn btn-primary" href="{{ path('edit_product', {id : product.id}) }}">Modifier le produit</a>
     {% endif %}
+    <div class="comments">
+        {% for comment in product.comments %}
+            <div class="row">
+                <div class="col-3"><img class="img-fluid" src="" alt=""></div>
+                <div class="col-9 comment">{{ comment.text }}</div>
+            </div>
+            <div>
+                {{ comment.date.format('d/m/Y H:i:s') }}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

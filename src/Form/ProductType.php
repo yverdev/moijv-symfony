@@ -22,23 +22,24 @@ class ProductType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom'
             ])
-            ->add('imageFile', FileType::class, [
+            ->add('imageFile', FileType::class , [
                 'required' => false,
-                //'constraints' => [
-                //  new Image()
-                //]
+//                'constraints' => [
+//                    new Image()
+//                ]
             ])
             ->add('price', MoneyType::class, [
-                'currency' => 'EUR',
+                "currency" => "EUR",
                 'divisor' => 100,
                 'label' => 'Prix'
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => "Description",
                 'attr' => [
-                    'placeholder' => 'Saisir votre description'
+                    'placeholder' => "Saisir votre description"
                 ]
             ])
+            ->add('category')
             ->add('tags', Select2EntityType::class, [
                 'class' => Tag::class,
                 'multiple' => true,
@@ -49,11 +50,10 @@ class ProductType extends AbstractType
                 'placeholder' => 'Sélectionner un ou plusieurs tags',
                 'allow_add' => [
                     'enabled' => true,
-                    'tag_separators' => '[","]',
+                    'tag_separators' => '[","]'
                 ]
             ])
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

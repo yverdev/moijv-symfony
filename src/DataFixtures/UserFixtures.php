@@ -17,7 +17,7 @@ class UserFixtures extends Fixture
     private $encoder;
 
     /**
-     * UserFixtures constructor
+     * UserFixtures constructor.
      * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -26,16 +26,19 @@ class UserFixtures extends Fixture
     }
 
     public function load(ObjectManager $manager)
-
     {
-        for ($i = 0; $i < 20; $i++) {
+//        $user = new User();
+//        $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+        for($i = 0; $i<self::NB_USER; $i++) {
             $user = new User();
-            $user->setEmail('user'.$i.'@fake.com')
-                ->setUsername('username'.$i)
-                ->setFirstname('firstname '.$i)
-                ->setLastname('lastname')
+
+            $user->setUsername("username$i")
+                ->setEmail("email$i@mail.com")
+                ->setFirstname("firstname$i")
+                ->setLastname("lastname$i")
                 ->setRoles(["ROLE_USER"])
                 ->setPassword($this->encoder->encodePassword($user, "password$i"));
+
             $this->addReference("user$i", $user);
             $manager->persist($user);
         }

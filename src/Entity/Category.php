@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TagRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TagRepository::class)
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
-class Tag
+class Category
 {
     /**
      * @ORM\Id()
@@ -30,7 +30,7 @@ class Tag
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class, mappedBy="tags")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
      */
     private $products;
 
@@ -80,7 +80,7 @@ class Tag
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->addTag($this);
+            $product->setCategory($this);
         }
 
         return $this;
@@ -90,7 +90,10 @@ class Tag
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
-            $product->removeTag($this);
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
         }
 
         return $this;

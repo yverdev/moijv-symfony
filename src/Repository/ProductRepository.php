@@ -25,9 +25,53 @@ class ProductRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('p')
             ->join('p.tags', 't')
             ->where('t = :tag');
+        // ->bindParam()
         $queryBuilder->setParameter(':tag', $tag);
-        $query =  $queryBuilder->getQuery();
+        $query = $queryBuilder->getQuery();
         return $query->getResult();
+    }
+
+    private function createWithAverageQueryBuilder($as)
+    {
+        return $qb = $this->createQueryBuilder($as)
+            ->select($as . ', AVG(c.note) as average') // SELECT p.*, AVG(c.note) FROM product
+            ->join($as . '.comments', 'c') // SELECT  p.*, AVG(c.note) FROM product LEFT JOIN comments ...
+            ->where('c.note IS NOT NULL') // SELECT ... WHERE ....
+            ->groupBy($as); // SELECT ... WHERE ... GROUP BY ...
+    }
+
+    public function findWithAverageNote($limit = null)
+    {
+        $qb = $this->createWithAverageQueryBuilder('p')
+            ->orderBy('p.id', 'DESC');
+        if($limit) {
+            $qb->setMaxResults($limit);
+        }
+        return $qb->getQuery()
+            ->getResult();
+
+        // En DQL :
+        // SELECT p, AVG(c.note) as average FROM \App\Entity\Product p JOIN p.comments WHERE c.note IS NOT NULL GROUP BY p
+    }
+
+    public function findByCategoryWithAverageNote($category)
+    {
+        return $this->createWithAverageQueryBuilder('p')
+            ->join('p.category', 'ca')
+            ->where('ca = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTagWithAverageNote($tag)
+    {
+        return $this->createWithAverageQueryBuilder('p')
+            ->join('p.tags', 't')
+            ->where('t = :tag')
+            ->setParameter('tag', $tag)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

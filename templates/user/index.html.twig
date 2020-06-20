@@ -1,8 +1,8 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-    <h1>Liste des utilisateurs</h1>
-
     <table class="table">
         <thead>
         <tr>
@@ -23,13 +23,12 @@
         <tbody>
         {% for user in user_list %}
             <tr>
-            <td>{{ user.firstname }}</td>
-            <td>{{ user.lastname }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

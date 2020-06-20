@@ -15,9 +15,9 @@ class TagController extends AbstractController
      */
     public function index(Request $request, SluggerInterface $slugger, TagRepository $tagRepository)
     {
-        $q = $request->get('q');
+        $q = $request->get('q'); // récupère ce qui a été recherché par l'utilisateur
         $slug = $slugger->slug($q)->lower()->toString();
-        //dd($slug->lower());
+        // SELECT * FROM tag WHERE slug LIKE '%:name%'
         $tags = $tagRepository->searchBySlug($slug);
         $tagsArray = array_map(function($tag){
             return [
